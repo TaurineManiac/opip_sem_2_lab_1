@@ -1,0 +1,3 @@
+C:/Users/Ignat/Desktop/Шестопалов Игнат Романович/ООПиП/lab_1_clion/cmake-build-debug/CMakeFiles/lab_1_clion.dir
+C:/Users/Ignat/Desktop/Шестопалов Игнат Романович/ООПиП/lab_1_clion/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/Ignat/Desktop/Шестопалов Игнат Романович/ООПиП/lab_1_clion/cmake-build-debug/CMakeFiles/rebuild_cache.dir
