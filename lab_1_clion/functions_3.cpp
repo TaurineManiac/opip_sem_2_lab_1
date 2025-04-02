@@ -156,10 +156,16 @@ istream& operator>>(istream& in, StringLab3& other){
             temp.clear();
             continue;
         }
+        bool kirillica=true;
         for(int i=0;i<temp.size();i++){
             if(isalpha(temp[i])){
                 temp[i]= tolower(temp[i]);
+                kirillica=false;
             }
+        }
+        if(kirillica){
+            cout<< "Введите символ(ы) латиницы." << endl;
+            continue;
         }
         size_t start = temp.find_first_not_of(" \t");
         size_t end = temp.find_last_not_of(" \t");

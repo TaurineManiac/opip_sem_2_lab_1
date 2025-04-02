@@ -36,10 +36,16 @@ void fillObject(StringLab3& obj, const string& objName) {
         size_t end = input.find_last_not_of(" \t");
         input = input.substr(start, end - start + 1);
         // Преобразуем буквы в нижний регистр
+        bool kirillica=true;
         for (char& c : input) {
             if (isalpha(c)) {
                 c = tolower(c);
+                kirillica=false;
             }
+        }
+        if(kirillica){
+            cout<< "Введите символ(ы) латиницы." << endl;
+            continue;
         }
         // Добавляем обработанную строку в объект
         obj.addString(input);
@@ -529,7 +535,7 @@ int main() {
                         if (!isdigit(input_choose_str[i])) {
                             hasInvalidChars = true;
                             break;
-                        }
+                        }ИГНАТ
                     }
                     if (hasInvalidChars) {
                         cout << "Некорректный ввод. Введите только цифры от 1 до 6: " << endl;
@@ -556,7 +562,7 @@ int main() {
                         getline(cin, input_choose_str_choice1);
                         if (input_choose_str_choice1.empty()) {
                             cout << "Ввод не может быть пустым. Введите целое число от 1 до 3: " << endl;
-                            continue;
+                            continue;СОСЕТ
                         }
                         bool hasInvalidChars = false;
                         for (size_t i = 0; i < input_choose_str_choice1.size(); i++) {
@@ -604,7 +610,7 @@ int main() {
                     cout<< "Выберите выберите что вы хотите вывести(1 - s1, 2 - s2, 3 - s3):" << endl;
                     int chooseStrLab3_choice1;
                     string input_choose_str_choice1;
-                    while (true) {
+                    while (true) {ХУЙ
                         getline(cin, input_choose_str_choice1);
                         if (input_choose_str_choice1.empty()) {
                             cout << "Ввод не может быть пустым. Введите целое число от 1 до 3: " << endl;
@@ -647,7 +653,6 @@ int main() {
                 else if (choiceStrLab3 == 3) {
                     // Сравнение двух объектов
                     cout << "s1: " << s1 << endl;
-                    cout << "s2: " << s2 << endl;
                     cout << "Сравнение s1 и s2:" << endl;
                     cout << "s1 < s2: " << (s1 < s2 ? "true" : "false") << endl;
                     cout << "s1 > s2: " << (s1 > s2 ? "true" : "false") << endl;
