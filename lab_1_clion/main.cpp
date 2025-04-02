@@ -535,7 +535,7 @@ int main() {
                         if (!isdigit(input_choose_str[i])) {
                             hasInvalidChars = true;
                             break;
-                        }ИГНАТ
+                        }
                     }
                     if (hasInvalidChars) {
                         cout << "Некорректный ввод. Введите только цифры от 1 до 6: " << endl;
@@ -562,7 +562,7 @@ int main() {
                         getline(cin, input_choose_str_choice1);
                         if (input_choose_str_choice1.empty()) {
                             cout << "Ввод не может быть пустым. Введите целое число от 1 до 3: " << endl;
-                            continue;СОСЕТ
+                            continue;
                         }
                         bool hasInvalidChars = false;
                         for (size_t i = 0; i < input_choose_str_choice1.size(); i++) {
@@ -610,8 +610,8 @@ int main() {
                     cout<< "Выберите выберите что вы хотите вывести(1 - s1, 2 - s2, 3 - s3):" << endl;
                     int chooseStrLab3_choice1;
                     string input_choose_str_choice1;
-                    while (true) {ХУЙ
-                        getline(cin, input_choose_str_choice1);
+                    while (true) {
+                                getline(cin, input_choose_str_choice1);
                         if (input_choose_str_choice1.empty()) {
                             cout << "Ввод не может быть пустым. Введите целое число от 1 до 3: " << endl;
                             continue;
