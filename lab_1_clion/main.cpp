@@ -6,8 +6,45 @@
 #include <cctype>
 #include "Header.h"
 #include "Header_2.h"
+#include "Header_3.h"
 
 using namespace std;
+
+// Функция для заполнения объекта пользователем
+void fillObject(StringLab3& obj, const string& objName) {
+    cout << "\nЗаполнение объекта " << objName << " (введите строки, для завершения введите 'done'):" << endl;
+    while (true) {
+        cout << "Введите строку (или 'done' для завершения):" << endl;
+        string input;
+        getline(cin, input);
+        if (input == "done") {
+            break;
+        }
+        // Проверяем, не пустая ли строка
+        if (input.empty()) {
+            cout << "Строка не должна быть пустой. Попробуйте снова." << endl;
+            continue;
+        }
+        // Проверяем, состоит ли строка только из пробелов
+        size_t start = input.find_first_not_of(" \t");
+        if (start == string::npos) {
+            cout << "Строка не должна быть пробельной. Попробуйте снова." << endl;
+            continue;
+        }
+        // Обрезаем начальные и конечные пробелы
+        size_t end = input.find_last_not_of(" \t");
+        input = input.substr(start, end - start + 1);
+        // Преобразуем буквы в нижний регистр
+        for (char& c : input) {
+            if (isalpha(c)) {
+                c = tolower(c);
+            }
+        }
+        // Добавляем обработанную строку в объект
+        obj.addString(input);
+        cout << objName << " теперь: " << obj << endl;
+    }
+}
 
 int main() {
     system("chcp 65001");
@@ -448,8 +485,276 @@ int main() {
 
             }
         } else if (k == 3) {
-            cout << "Лабораторная 3:" << endl;
-            cout << "Ещё не готова." << endl;
+            cout << "Лабораторная 3:"
+                    "30. Реализовать класс String для работы со строками. Создать методы \n"
+                    "доступа к полям класса. Перегрузить в классе операторы сравнивания строки \n"
+                    "«<», «>», «!=», «+=» (дозапись в конец строки, append). Реализовать \n"
+                    "конструкторы (по умолчанию, с параметрами, копирования), деструктор. \n"
+                    "Реализовать friend-функции для операторов ввода/вывода в поток для \n"
+                    "созданного класса." << endl;
+            // Главная функция программы
+            StringLab3 s1;                                     // Создаём пустой объект s1
+            StringLab3 s2;                                     // Создаём пустой объект s2
+            StringLab3 s3;                                     // Создаём пустой объект s3
+
+            // Заполняем объекты вручную
+            cout << "Давайте заполним объекты s1, s2 и s3." << endl;
+            fillObject(s1, "s1");
+            fillObject(s2, "s2");
+            fillObject(s3, "s3");
+
+
+            // Переходим к интерактивному меню
+            int choiceStrLab3;
+            string input_choose_str;
+            while (true) {
+                cout << "\n=== Меню программы ===" << endl;
+                cout << "1. Ввести новую строку в объект" << endl;
+                cout << "2. Вывести содержимое объекта" << endl;
+                cout << "3. Сравнить два объекта (<, >, !=)" << endl;
+                cout << "4. Добавить строку ко всем строкам объекта (+=)" << endl;
+                cout << "5. Получить размер массива строк" << endl;
+                cout << "6. Выход" << endl;
+                cout << "Выберите действие (1-6): ";
+                while (true) {
+                    getline(cin, input_choose_str);
+                    if (input_choose_str.empty()) {
+                        cout << "Ввод не может быть пустым. Введите целое число от 1 до 6: " << endl;
+                        continue;
+                    }
+                    bool hasInvalidChars = false;
+                    for (size_t i = 0; i < input_choose_str.size(); i++) {
+                        if (!isdigit(input_choose_str[i])) {
+                            hasInvalidChars = true;
+                            break;
+                        }
+                    }
+                    if (hasInvalidChars) {
+                        cout << "Некорректный ввод. Введите только цифры от 1 до 6: " << endl;
+                        continue;
+                    }
+                    try {
+                        choiceStrLab3 = stoi(input_choose_str);
+                        if (choiceStrLab3 < 1 || choiceStrLab3 > 6) {
+                            cout << "Некорректный ввод. Введите число от 1 до 6: " << endl;
+                            continue;
+                        }
+                        break;
+                    } catch (const invalid_argument &ia) {
+                        cout << "Некорректный ввод. Введите целое число от 1 до 6: " << endl;
+                    } catch (const out_of_range &oor) {
+                        cout << "Число выходит за пределы диапазона для типа int." << endl;
+                    }
+                }
+                if (choiceStrLab3 == 1) {
+                    cout<< "Выберите где хотите изменить(1 - s1, 2 - s2, 3 - s3):" << endl;
+                    int chooseStrLab3_choice1;
+                    string input_choose_str_choice1;
+                    while (true) {
+                        getline(cin, input_choose_str_choice1);
+                        if (input_choose_str_choice1.empty()) {
+                            cout << "Ввод не может быть пустым. Введите целое число от 1 до 3: " << endl;
+                            continue;
+                        }
+                        bool hasInvalidChars = false;
+                        for (size_t i = 0; i < input_choose_str_choice1.size(); i++) {
+                            if (!isdigit(input_choose_str_choice1[i])) {
+                                hasInvalidChars = true;
+                                break;
+                            }
+                        }
+                        if (hasInvalidChars) {
+                            cout << "Некорректный ввод. Введите только цифры от 1 до 3: " << endl;
+                            continue;
+                        }
+                        try {
+                            chooseStrLab3_choice1 = stoi(input_choose_str_choice1);
+                            if (chooseStrLab3_choice1 < 1 || chooseStrLab3_choice1 > 3) {
+                                cout << "Некорректный ввод. Введите число от 1 до 3: " << endl;
+                                continue;
+                            }
+                            break;
+                        } catch (const invalid_argument &ia) {
+                            cout << "Некорректный ввод. Введите целое число от 1 до 3: " << endl;
+                        } catch (const out_of_range &oor) {
+                            cout << "Число выходит за пределы диапазона для типа int." << endl;
+                        }
+                    }
+                    cin.clear();
+                    if(chooseStrLab3_choice1==1){
+                        // Ввод новой строки
+                        cout << "Ввод строки в объект s1:" << endl;
+                        cin >> s1;
+                    }
+                    else if(chooseStrLab3_choice1==2){
+                        // Ввод новой строки
+                        cout << "Ввод строки в объект s2:" << endl;
+                        cin >> s2;
+                    }
+                    else if(chooseStrLab3_choice1==3){
+                        // Ввод новой строки
+                        cout << "Ввод строки в объект s3:" << endl;
+                        cin >> s3;
+                    }
+
+                }
+                else if (choiceStrLab3 == 2) {
+                    cout<< "Выберите выберите что вы хотите вывести(1 - s1, 2 - s2, 3 - s3):" << endl;
+                    int chooseStrLab3_choice1;
+                    string input_choose_str_choice1;
+                    while (true) {
+                        getline(cin, input_choose_str_choice1);
+                        if (input_choose_str_choice1.empty()) {
+                            cout << "Ввод не может быть пустым. Введите целое число от 1 до 3: " << endl;
+                            continue;
+                        }
+                        bool hasInvalidChars = false;
+                        for (size_t i = 0; i < input_choose_str_choice1.size(); i++) {
+                            if (!isdigit(input_choose_str_choice1[i])) {
+                                hasInvalidChars = true;
+                                break;
+                            }
+                        }
+                        if (hasInvalidChars) {
+                            cout << "Некорректный ввод. Введите только цифры от 1 до 3: " << endl;
+                            continue;
+                        }
+                        try {
+                            chooseStrLab3_choice1 = stoi(input_choose_str_choice1);
+                            if (chooseStrLab3_choice1 < 1 || chooseStrLab3_choice1 > 3) {
+                                cout << "Некорректный ввод. Введите число от 1 до 3: " << endl;
+                                continue;
+                            }
+                            break;
+                        } catch (const invalid_argument &ia) {
+                            cout << "Некорректный ввод. Введите целое число от 1 до 3: " << endl;
+                        } catch (const out_of_range &oor) {
+                            cout << "Число выходит за пределы диапазона для типа int." << endl;
+                        }
+                    }
+                    if (chooseStrLab3_choice1 == 1) {
+                        cout << "s1: " << s1 << endl;
+                    } else if (chooseStrLab3_choice1 == 2) {
+                        cout << "s2: " << s2 << endl;
+                    } else if (chooseStrLab3_choice1 == 3) {
+                        cout << "s3: " << s3 << endl;
+                    } else {
+                        cout << "Ошибка: выберите 1, 2 или 3." << endl;
+                    }
+                }
+                else if (choiceStrLab3 == 3) {
+                    // Сравнение двух объектов
+                    cout << "Сравнение s1 и s2:" << endl;
+                    cout << "s1 < s2: " << (s1 < s2 ? "true" : "false") << endl;
+                    cout << "s1 > s2: " << (s1 > s2 ? "true" : "false") << endl;
+                    cout << "s1 != s2: " << (s1 != s2 ? "true" : "false") << endl;
+                }
+                else if (choiceStrLab3 == 4) {
+                    cout << "Выберите объект для изменения (1 - s1, 2 - s2, 3 - s3): ";
+                    int chooseStrLab3_choice1;
+                    string input_choose_str_choice1;
+                    while (true) {
+                        getline(cin, input_choose_str_choice1);
+                        if (input_choose_str_choice1.empty()) {
+                            cout << "Ввод не может быть пустым. Введите целое число от 1 до 3: " << endl;
+                            continue;
+                        }
+                        bool hasInvalidChars = false;
+                        for (size_t i = 0; i < input_choose_str_choice1.size(); i++) {
+                            if (!isdigit(input_choose_str_choice1[i])) {
+                                hasInvalidChars = true;
+                                break;
+                            }
+                        }
+                        if (hasInvalidChars) {
+                            cout << "Некорректный ввод. Введите только цифры от 1 до 3: " << endl;
+                            continue;
+                        }
+                        try {
+                            chooseStrLab3_choice1 = stoi(input_choose_str_choice1);
+                            if (chooseStrLab3_choice1 < 1 || chooseStrLab3_choice1 > 3) {
+                                cout << "Некорректный ввод. Введите число от 1 до 3: " << endl;
+                                continue;
+                            }
+                            break;
+                        } catch (const invalid_argument &ia) {
+                            cout << "Некорректный ввод. Введите целое число от 1 до 3: " << endl;
+                        } catch (const out_of_range &oor) {
+                            cout << "Число выходит за пределы диапазона для типа int." << endl;
+                        }
+                    }
+                    cout << "Введите строку для добавления:" << endl;
+                    StringLab3 temp;
+                    cin.clear();
+                    cin >> temp;
+                    if (chooseStrLab3_choice1 == 1) {
+                        s1 += temp;
+                        cout << "s1 после добавления: " << s1 << endl;
+                    } else if (chooseStrLab3_choice1 == 2) {
+                        s2 += temp;
+                        cout << "s2 после добавления: " << s2 << endl;
+                    } else if (chooseStrLab3_choice1 == 3) {
+                        s3 += temp;
+                        cout << "s3 после добавления: " << s3 << endl;
+                    } else {
+                        cout << "Ошибка: выберите 1, 2 или 3." << endl;
+                    }
+                }
+                else if (choiceStrLab3 == 5) {
+                    cout << "Выберите объект для изменения (1 - s1, 2 - s2, 3 - s3): ";
+                    int chooseStrLab3_choice1;
+                    string input_choose_str_choice1;
+                    while (true) {
+                        getline(cin, input_choose_str_choice1);
+                        if (input_choose_str_choice1.empty()) {
+                            cout << "Ввод не может быть пустым. Введите целое число от 1 до 3: " << endl;
+                            continue;
+                        }
+                        bool hasInvalidChars = false;
+                        for (size_t i = 0; i < input_choose_str_choice1.size(); i++) {
+                            if (!isdigit(input_choose_str_choice1[i])) {
+                                hasInvalidChars = true;
+                                break;
+                            }
+                        }
+                        if (hasInvalidChars) {
+                            cout << "Некорректный ввод. Введите только цифры от 1 до 3: " << endl;
+                            continue;
+                        }
+                        try {
+                            chooseStrLab3_choice1 = stoi(input_choose_str_choice1);
+                            if (chooseStrLab3_choice1 < 1 || chooseStrLab3_choice1 > 3) {
+                                cout << "Некорректный ввод. Введите число от 1 до 3: " << endl;
+                                continue;
+                            }
+                            break;
+                        } catch (const invalid_argument &ia) {
+                            cout << "Некорректный ввод. Введите целое число от 1 до 3: " << endl;
+                        } catch (const out_of_range &oor) {
+                            cout << "Число выходит за пределы диапазона для типа int." << endl;
+                        }
+                    }
+
+                    if (chooseStrLab3_choice1 == 1) {
+                        cout << "Размер s1: " << s1.getSize() << endl;
+                    } else if (chooseStrLab3_choice1 == 2) {
+                        cout << "Размер s2: " << s2.getSize() << endl;
+                    } else if (chooseStrLab3_choice1 == 3) {
+                        cout << "Размер s3: " << s3.getSize() << endl;
+                    } else {
+                        cout << "Ошибка: выберите 1, 2 или 3." << endl;
+                    }
+
+                }
+                else if (choiceStrLab3 == 6) {
+                    cout << "Произошёл выход." << endl;
+                    break;
+                }
+
+
+            }
+
+
         } else if (k == 4) {
             cout << "Лабораторная 4:" << endl;
             cout << "Ещё не готова." << endl;

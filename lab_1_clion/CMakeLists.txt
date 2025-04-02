@@ -11,6 +11,8 @@ add_executable(lab_1_clion
         functions_1.cpp
         functions_2.cpp
         Header_2.h
+        functions_3.cpp
+        Header_3.h
 )
 
 # Указываем директорию с заголовочными файлами
