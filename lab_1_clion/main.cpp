@@ -12,14 +12,15 @@ using namespace std;
 
 // Функция для заполнения объекта пользователем
 void fillObject(StringLab3& obj, const string& objName) {
-    cout << "\nЗаполнение объекта " << objName << " (введите строки, для завершения введите 'done'):" << endl;
+//    << " (введите строки, для завершения введите 'done'):"
+    cout << "\nЗаполнение объекта " << objName  << endl;
     while (true) {
-        cout << "Введите строку (или 'done' для завершения):" << endl;
+        cout << "Введите строку " << endl;
         string input;
         getline(cin, input);
-        if (input == "done") {
-            break;
-        }
+//        if (input == "done") {
+//            break;
+//        }
         // Проверяем, не пустая ли строка
         if (input.empty()) {
             cout << "Строка не должна быть пустой. Попробуйте снова." << endl;
@@ -43,6 +44,7 @@ void fillObject(StringLab3& obj, const string& objName) {
         // Добавляем обработанную строку в объект
         obj.addString(input);
         cout << objName << " теперь: " << obj << endl;
+        break;
     }
 }
 
@@ -644,6 +646,8 @@ int main() {
                 }
                 else if (choiceStrLab3 == 3) {
                     // Сравнение двух объектов
+                    cout << "s1: " << s1 << endl;
+                    cout << "s2: " << s2 << endl;
                     cout << "Сравнение s1 и s2:" << endl;
                     cout << "s1 < s2: " << (s1 < s2 ? "true" : "false") << endl;
                     cout << "s1 > s2: " << (s1 > s2 ? "true" : "false") << endl;
