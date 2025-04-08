@@ -1,231 +1,180 @@
-#include "Header_2.h"
 #include <iostream>
-#include <clocale>  // <locale.h> на <clocale> для соответствия современным стандартам
+#include "Header_2.h"
 
 using namespace std;
 
-// Реализации методов класса NodeInt
-NodeInt::NodeInt() : num(0), next(nullptr) {}
-
-NodeInt::NodeInt(int value) : num(value), next(nullptr) {}
-
-// Реализации методов класса LinkedListInt
-LinkedListInt::LinkedListInt() : headInt(nullptr), count(0) {}
+// Реализация LinkedListInt
+LinkedListInt::LinkedListInt() : head(nullptr), size(0) {}
 
 LinkedListInt::~LinkedListInt() {
-    NodeInt* current = headInt;
+    Node* current = head;
     while (current != nullptr) {
-        NodeInt* next = current->next;
-        delete current;  // Освобождаем память каждого узла
+        Node* next = current->next;
+        delete current;
         current = next;
     }
 }
 
 void LinkedListInt::addIntFront(int value) {
-    NodeInt* newNode = new NodeInt(value);
-    newNode->next = headInt;
-    headInt = newNode;
-    count++;
+    Node* newNode = new Node(value);
+    newNode->next = head;
+    head = newNode;
+    size++;
+    cout << "Добавлено в начало: " << value << endl;
 }
 
 void LinkedListInt::addIntBack(int value) {
-    NodeInt* newNode = new NodeInt(value);
-    if (headInt == nullptr) {
-        headInt = newNode;
-        count++;
+    Node* newNode = new Node(value);
+    if (head == nullptr) {
+        head = newNode;
     } else {
-        NodeInt* current = headInt;
+        Node* current = head;
         while (current->next != nullptr) {
             current = current->next;
         }
         current->next = newNode;
-        count++;
     }
+    size++;
+    cout << "Добавлено в конец: " << value << endl;
 }
 
 void LinkedListInt::deleteIntPerIndex(int index) {
-    if (index < 0) {
-        cout << "Индекс не может быть отрицательным." << endl;
-        return;
-    }
-    if (headInt == nullptr) {
-        cout << "Список пуст, удаление невозможно." << endl;
+    if (index < 0 || index >= size) {
+        cout << "Недопустимый индекс." << endl;
         return;
     }
     if (index == 0) {
-        NodeInt* temp = headInt;
-        headInt = headInt->next;
+        Node* temp = head;
+        head = head->next;
         delete temp;
-        count--;
+        size--;
+        cout << "Элемент с индексом " << index << " удалён." << endl;
         return;
     }
-    if (index >= count) {
-        cout << "Индекс за пределами списка." << endl;
-        return;
-    }
-
-    NodeInt* current = headInt;
+    Node* current = head;
     for (int i = 0; i < index - 1; i++) {
         current = current->next;
     }
-    NodeInt* temp = current->next;
+    Node* temp = current->next;
     current->next = temp->next;
     delete temp;
-    count--;
+    size--;
+    cout << "Элемент с индексом " << index << " удалён." << endl;
 }
 
-void LinkedListInt::searchIntPerIndex(int index) {
-    if (index < 0) {
-        cout << "Индекс не может быть отрицательным." << endl;
+void LinkedListInt::LinkedListIntPrint() const {
+    if (size == 0) {
+        cout << "nullptr (Количество элементов: 0)" << endl;
         return;
     }
-    if (headInt == nullptr) {
-        cout << "Список пуст, поиск невозможен." << endl;
-        return;
+    Node* current = head;
+    while (current != nullptr) {
+        cout << current->data << " -> ";
+        current = current->next;
     }
-    if (index >= count) {
-        cout << "Индекс за пределами списка." << endl;
-        return;
-    }
+    cout << "nullptr (Количество элементов: " << size << ")" << endl;
+}
 
-    NodeInt* current = headInt;
+void LinkedListInt::searchIntPerIndex(int index) const {
+    if (index < 0 || index >= size) {
+        cout << "Недопустимый индекс." << endl;
+        return;
+    }
+    Node* current = head;
     for (int i = 0; i < index; i++) {
         current = current->next;
     }
-    cout << current->num << endl;
+    cout << "Элемент с индексом " << index << ": " << current->data << endl;
 }
 
-void LinkedListInt::LinkedListIntPrint() {
-    NodeInt* current = headInt;
-    while (current != nullptr) {
-        cout << current->num << " -> ";
-        current = current->next;
-    }
-    cout << "nullptr (Количество элементов: " << count << ")" << endl;
+int LinkedListInt::getSize() const {
+    return size;
 }
 
-int LinkedListInt::GetCount() {
-    return count;
-}
-
-// Реализации методов класса NodeString
-NodeString::NodeString() : str(""), next(nullptr) {}
-
-NodeString::NodeString(const string& value) : str(value), next(nullptr) {}
-
-// Реализации методов класса LinkedListString
-LinkedListString::LinkedListString() : headString(nullptr), count(0) {}
+// Реализация LinkedListString
+LinkedListString::LinkedListString() : head(nullptr), size(0) {}
 
 LinkedListString::~LinkedListString() {
-    NodeString* current = headString;
-    while (current != nullptr) {  // Исправлено: while (current != nullptr) вместо while (current == nullptr)
-        NodeString* temp = current->next;
+    Node* current = head;
+    while (current != nullptr) {
+        Node* next = current->next;
         delete current;
-        current = temp;
+        current = next;
     }
 }
 
 void LinkedListString::addStringFront(const string& value) {
-    NodeString* current = new NodeString(value);
-    current->next = headString;
-    headString = current;
-    count++;
-    cout << "Элемент добавлен." << endl;
+    Node* newNode = new Node(value);
+    newNode->next = head;
+    head = newNode;
+    size++;
+    cout << "Добавлено в начало: " << value << endl;
 }
 
-void LinkedListString::addStringBack(const std::string& value) {
-    NodeString* current = headString;
-    if (headString == nullptr) {  // Исправлено: если список пуст, устанавливаем новый узел как голову
-        headString = new NodeString(value);
-        count++;
-        cout << "Элемент добавлен." << endl;
-        return;
+void LinkedListString::addStringBack(const string& value) {
+    Node* newNode = new Node(value);
+    if (head == nullptr) {
+        head = newNode;
+    } else {
+        Node* current = head;
+        while (current->next != nullptr) {
+            current = current->next;
+        }
+        current->next = newNode;
     }
-    while (current->next != nullptr) {  // Проходим до последнего узла
-        current = current->next;
-    }
-    current->next = new NodeString(value);  // Добавляем новый узел в конец
-    count++;
-    cout << "Элемент добавлен." << endl;
+    size++;
+    cout << "Добавлено в конец: " << value << endl;
 }
 
 void LinkedListString::deleteStringPerIndex(int index) {
-    if (index < 0) {
-        cout << "Индекс не может быть отрицательным." << endl;
-        return;
-    }
-    if (headString == nullptr) {
-        cout << "Список пуст, удаление невозможно." << endl;
+    if (index < 0 || index >= size) {
+        cout << "Недопустимый индекс." << endl;
         return;
     }
     if (index == 0) {
-        NodeString* temp = headString;
-        headString = headString->next;
+        Node* temp = head;
+        head = head->next;
         delete temp;
-        count--;
-        cout << "Элемент удалён." << endl;
+        size--;
+        cout << "Элемент с индексом " << index << " удалён." << endl;
         return;
     }
-    if (index >= count) {
-        cout << "Индекс за пределами списка." << endl;
-        return;
-    }
-
-    NodeString* current = headString;
+    Node* current = head;
     for (int i = 0; i < index - 1; i++) {
-        if (current->next == nullptr) {  // Дополнительная проверка на nullptr
-            cout << "Индекс за пределами списка." << endl;
-            return;
-        }
         current = current->next;
     }
-    NodeString* temp = current->next;
-    if (temp == nullptr) {  // Проверка, чтобы избежать сегментации
-        cout << "Индекс за пределами списка." << endl;
-        return;
-    }
+    Node* temp = current->next;
     current->next = temp->next;
     delete temp;
-    count--;
-    cout << "Элемент удалён." << endl;
+    size--;
+    cout << "Элемент с индексом " << index << " удалён." << endl;
 }
 
-void LinkedListString::searchStringPerIndex(int index) {
-    if (index < 0) {
-        cout << "Индекс не может быть отрицательным." << endl;
+void LinkedListString::printAllListString() const {
+    if (size == 0) {
+        cout << "nullptr (Количество элементов: 0)" << endl;
         return;
     }
-    if (headString == nullptr) {
-        cout << "Список пуст, поиск невозможен." << endl;
-        return;
-    }
-    if (index >= count) {
-        cout << "Индекс за пределами списка." << endl;
-        return;
-    }
-
-    NodeString* current = headString;
-    for (int i = 0; i < index; i++) {
-        if (current->next == nullptr) {  // Дополнительная проверка на nullptr
-            cout << "Индекс за пределами списка." << endl;
-            return;
-        }
-        current = current->next;
-    }
-    cout << "Строка под индексом " << index << ": " << current->str << endl;
-}
-
-void LinkedListString::printAllListString() {
-    NodeString* current = headString;
-    int i = 0;
+    Node* current = head;
     while (current != nullptr) {
-        cout << "Строка номер " << i + 1 << ": " << current->str << endl;
+        cout << current->data << " -> ";
         current = current->next;
-        i++;
     }
-    cout << "Строки кончились." << endl;
+    cout << "nullptr (Количество элементов: " << size << ")" << endl;
 }
 
-int LinkedListString::GetCount() {  // Добавлено const для соответствия объявлению
-    return count;
+void LinkedListString::searchStringPerIndex(int index) const {
+    if (index < 0 || index >= size) {
+        cout << "Недопустимый индекс." << endl;
+        return;
+    }
+    Node* current = head;
+    for (int i = 0; i < index; i++) {
+        current = current->next;
+    }
+    cout << "Элемент с индексом " << index << ": " << current->data << endl;
+}
+
+int LinkedListString::getSize() const {
+    return size;
 }

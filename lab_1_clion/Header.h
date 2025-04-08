@@ -4,9 +4,10 @@
 #include <string>
 
 using namespace std;
+
 class String {
 private:
-    string str; // Основное поле для хранения строки
+    string str;
 
 public:
     // Конструктор без параметров
@@ -24,9 +25,6 @@ public:
     // Оператор присваивания
     String& operator=(const String& other);
 
-    // Методы установки значений с проверкой корректности
-    void setStr(const string& newStr);
-
     // Методы для работы со строками
     void concat(const String* other, int count);
     void concat_ws(const String* other, const string& separator, int count);
@@ -43,6 +41,5 @@ public:
 // Прототипы функций
 void vvod(String* arr, int count);
 void vivod(const String* arr, int count);
-
 
 #endif //UNTITLED_HEADER_H

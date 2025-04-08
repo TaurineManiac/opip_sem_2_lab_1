@@ -4,8 +4,11 @@
 #include <locale.h>
 #include <fstream>
 #include "Header.h"
+#include "inputCheck.h"
 
 using namespace std;
+using namespace mylib;
+
 //конструкторы
 String::String(): str(""){}
 String::String(const char *s): str(s) {}
@@ -94,20 +97,12 @@ void String::writeToFile(const char* filename) const {
 }
 
 void vvod(String* arr, int count) {
-    string input;
-
     // Динамическое выделение памяти
     String* strings = new String[count];
 
     // Ввод строк
     for (int i = 0; i < count; i++) {
-        cout << "Введите строку " << i + 1 << ": ";
-        getline(cin, input);
-        if (input.empty() || input.find_first_not_of(' ') == string::npos) {  // Проверка на пустую строку или только пробелы
-            cout << "Строка не может быть пустой или состоять только из пробелов. Повторите ввод." << endl;
-            i--;  // Повторяем ввод для текущей строки
-            continue;
-        }
+        string input = checkTryToInputString(false); // Ввод строки (без кириллицы)
         strings[i] = String(input.c_str());
         cout << "До обработки (сырой ввод): '" << input << "'" << endl;
 
@@ -136,34 +131,12 @@ void vivod(const String* arr, int count) {
     }
     cout << "Вывод завершён." << endl;
     for (int i = 0; i < count; i++) {
-        arr[i].writeToFile("C:\\Users\\Ignat\\Desktop\\Шестопалов Игнат Романович\\ООПиП\\Лаба 1\\newtxt.txt");
+        arr[i].writeToFile("output.txt"); // Изменили путь на более универсальный
     }
 
     // Логика объединения строк
     if (count > 1) {
-        string input;
-        int l;
-        cout << "Сделайте выбор (1-объединение без разделителя/2-объединение с разделителем): ";
-        while (true) {
-            getline(cin, input);
-            bool znacki = false;
-            for (int i = 0; i < input.size(); i++) {
-                if (ispunct(input[i]) || isspace(input[i])) {
-                    znacki = true;
-                }
-            }
-            if (znacki) {
-                cout << "Число должно быть не дробное и должно быть числом:)" << endl;
-                continue;
-            }
-            try {
-                l = stoi(input);
-                if (l != 1 && l != 2) throw invalid_argument("Выберите 1 или 2");
-                break;
-            } catch (const exception& e) {
-                cout << "Некорректный ввод. Введите целое число: " << endl;
-            }
-        }
+        int l = checkYourSolution(2); // Выбор типа объединения (1-2)
 
         String result = arr[0];  // Используем arr напрямую
         if (l == 1) {
@@ -174,9 +147,6 @@ void vivod(const String* arr, int count) {
             cout << "Объединение с разделителем ' ': ";
         }
         result.print();
-        result.writeToFile("C:\\Users\\Ignat\\Desktop\\Шестопалов Игнат Романович\\ООПиП\\Лаба 1\\newtxt.txt");
+        result.writeToFile("output.txt");
     }
 }
-
-
-
