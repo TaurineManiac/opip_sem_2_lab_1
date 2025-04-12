@@ -7,6 +7,7 @@
 #include "Header.h"
 #include "Header_2.h"
 #include "Header_3.h"
+#include "Header_4.h"
 #include "inputCheck.h"
 
 using namespace std;
@@ -72,7 +73,7 @@ int main() {
                 cout << "2-string" << endl;
                 cout << "3-Выйти." << endl;
                 int choose_all = checkYourSolution(
-
+                
                         3); // Выбор типа данных (1-3)
 
                 if (choose_all == 1) {
@@ -242,7 +243,115 @@ int main() {
             }
         } else if (k == 4) {
             cout << "Лабораторная 4:" << endl;
-            cout << "Ещё не готова." << endl;
+            cout << "30. Написать программу для обслуживания клиентов спортивного центра. Создать классы «Клиент», «Услуга», «Заказ» с необходимым набором полей и методов. Каждая услуга имеет название, цену, стоимость, время выполнения. При обслуживании клиента необходимо подготовить чек, в котором должно быть указано название услуги, её цена, количество сеансов, общая сумма чека, дата и время покупки. Данные чека вывести на экран и в файл." << endl;
+
+            Order* orders = nullptr; // Динамический массив заказов
+            int orderCount = 0; // Текущее количество заказов
+            int capacity = 0; // Текущая вместимость массива
+
+            while (true) {
+                cout << "1. Добавить новый заказ" << endl;
+                cout << "2. Просмотреть все заказы" << endl;
+                cout << "3. Удалить заказ по индексу" << endl;
+                cout << "4. Выйти" << endl;
+                int choice = checkYourSolution(4); // Выбор действия (1-4)
+
+                if (choice == 1) {
+                    // Увеличиваем массив, если нужно
+                    if (orderCount == capacity) {
+                        int newCapacity = (capacity == 0) ? 1 : capacity * 2;
+                        Order* newOrders = new Order[newCapacity];
+                        for (int i = 0; i < orderCount; i++) {
+                            newOrders[i] = orders[i];
+                        }
+                        delete[] orders;
+                        orders = newOrders;
+                        capacity = newCapacity;
+                    }
+
+                    // Ввод данных клиента
+                    cout << "Введите имя клиента: ";
+                    string clientName = checkTryToInputString(false); // Запрещаем кириллицу
+                    cout << "Введите фамилию клиента: "; // Исправили подсказку: вместо "контакт" теперь "фамилия"
+                    string clientSurname = checkTryToInputString(false);
+                    Client client(clientName, clientSurname);
+
+                    // Ввод данных услуги
+                    cout << "Введите название услуги: ";
+                    string serviceName = checkTryToInputString(false);
+//                    cout << "Введите цену услуги (руб.): ";
+//                    double servicePrice = checkTryToInputDouble();
+//                    while (servicePrice==0){
+//                        cout<< "Не может быть 0)" << endl;
+//                        servicePrice = checkTryToInputDouble();
+//                    }
+                    cout << "Введите стоимость услуги (руб.): ";
+                    double serviceCost = checkTryToInputDouble();
+                    while (serviceCost==0){
+                        cout<< "Не может быть 0)" << endl;
+                        serviceCost = checkTryToInputDouble();
+                    }
+                    cout << "Введите время выполнения услуги (в минутах): ";
+                    int serviceDuration = checkTryToInputInt();
+                    while(serviceDuration==0){
+                        cout<< "Не может быть 0)" << endl;
+                        serviceDuration = checkTryToInputInt();
+                    }
+                    if(serviceDuration<2){
+                        cout<< "Что за услуга такая, которая меньше 2-х минут?)" << endl;
+                    }
+                    double servicePrice=serviceCost;
+                    Service service(serviceName, servicePrice, serviceCost, serviceDuration);
+
+                    // Ввод количества сеансов
+                    cout << "Введите количество сеансов: ";
+                    int sessionCount = checkTryToInputInt();
+                    while (sessionCount <= 0) {
+                        cout << "Количество сеансов должно быть больше 0. Попробуйте снова: ";
+                        sessionCount = checkTryToInputInt();
+                    }
+
+                    // Создание заказа
+                    orders[orderCount] = Order(client, service, sessionCount);
+                    orderCount++;
+
+                    // Вывод и сохранение чека
+                    orders[orderCount - 1].printReceipt();
+                    orders[orderCount - 1].saveReceiptToFile("receipt.txt");
+                    cout << "Заказ успешно добавлен!" << endl;
+                } else if (choice == 2) {
+                    if (orderCount == 0) {
+                        cout << "Список заказов пуст." << endl;
+                    } else {
+                        cout << "\n=== Список всех заказов ===" << endl;
+                        for (int i = 0; i < orderCount; i++) {
+                            cout << "Заказ #" << i << ":" << endl;
+                            orders[i].printReceipt();
+                        }
+                    }
+                } else if (choice == 3) {
+                    if (orderCount == 0) {
+                        cout << "Список заказов пуст." << endl;
+                        continue;
+                    }
+                    cout << "Введите индекс заказа для удаления (0-" << (orderCount - 1) << "): ";
+                    int index = checkTryToInputInt();
+                    if (index < 0 || index >= orderCount) {
+                        cout << "Недопустимый индекс." << endl;
+                        continue;
+                    }
+                    // Сдвигаем элементы массива
+                    for (int i = index; i < orderCount - 1; i++) {
+                        orders[i] = orders[i + 1];
+                    }
+                    orderCount--;
+                    cout << "Заказ с индексом " << index << " удалён." << endl;
+                } else if (choice == 4) {
+                    cout << "Произошёл выход из Лабы 4." << endl;
+                    delete[] orders; // Освобождаем память
+                    break;
+                }
+            }
         } else if (k == 5) {
             cout << "Лабораторная 5:" << endl;
             cout << "Ещё не готова." << endl;

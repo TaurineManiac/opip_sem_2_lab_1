@@ -77,6 +77,13 @@ build CMakeFiles/lab_1_clion.dir/functions_3.cpp.obj: CXX_COMPILER__lab_1_clion_
   OBJECT_DIR = CMakeFiles\lab_1_clion.dir
   OBJECT_FILE_DIR = CMakeFiles\lab_1_clion.dir
 
+build CMakeFiles/lab_1_clion.dir/functions_4.cpp.obj: CXX_COMPILER__lab_1_clion_unscanned_Debug C$:/Users/Ignat/Desktop/Шестопалов$ Игнат$ Романович/ООПиП/lab_1_clion/functions_4.cpp || cmake_object_order_depends_target_lab_1_clion
+  DEP_FILE = CMakeFiles\lab_1_clion.dir\functions_4.cpp.obj.d
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  INCLUDES = -I"C:/Users/Ignat/Desktop/Шестопалов Игнат Романович/ООПиП/lab_1_clion"
+  OBJECT_DIR = CMakeFiles\lab_1_clion.dir
+  OBJECT_FILE_DIR = CMakeFiles\lab_1_clion.dir
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target lab_1_clion
@@ -85,7 +92,7 @@ build CMakeFiles/lab_1_clion.dir/functions_3.cpp.obj: CXX_COMPILER__lab_1_clion_
 #############################################
 # Link the executable lab_1_clion.exe
 
-build lab_1_clion.exe: CXX_EXECUTABLE_LINKER__lab_1_clion_Debug CMakeFiles/lab_1_clion.dir/main.cpp.obj CMakeFiles/lab_1_clion.dir/functions_1.cpp.obj CMakeFiles/lab_1_clion.dir/functions_2.cpp.obj CMakeFiles/lab_1_clion.dir/functions_3.cpp.obj | libinputCheck.dll.a
+build lab_1_clion.exe: CXX_EXECUTABLE_LINKER__lab_1_clion_Debug CMakeFiles/lab_1_clion.dir/main.cpp.obj CMakeFiles/lab_1_clion.dir/functions_1.cpp.obj CMakeFiles/lab_1_clion.dir/functions_2.cpp.obj CMakeFiles/lab_1_clion.dir/functions_3.cpp.obj CMakeFiles/lab_1_clion.dir/functions_4.cpp.obj | libinputCheck.dll.a
   FLAGS = -g
   LINK_LIBRARIES = libinputCheck.dll.a  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\lab_1_clion.dir
