@@ -4,7 +4,7 @@ project(lab_1_clion)
 set(CMAKE_CXX_STANDARD 20)
 
 # Создаем исполняемый файл
-add_executable(lab_1_clion main.cpp functions_1.cpp functions_2.cpp functions_3.cpp functions_4.cpp)
+add_executable(lab_1_clion main.cpp functions_1.cpp functions_2.cpp functions_3.cpp functions_4.cpp functions_5.cpp)
 
 # Указываем путь к заголовочным файлам
 target_include_directories(lab_1_clion PRIVATE ${CMAKE_SOURCE_DIR})
