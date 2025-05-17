@@ -6,6 +6,7 @@
 #include <fstream>
 #include <stdexcept>
 #include <cctype>
+#include <limits>
 #include <windows.h>
 #include "Header.h"
 #include "Header_2.h"
@@ -13,8 +14,10 @@
 #include "Header_4.h"
 #include "Header_5.h"
 #include "Header_6.h"
+#include "Header_7.h"
 #include "inputCheck.h"
 #include "generate.h"
+
 
 using namespace std;
 using namespace mylib;
@@ -616,13 +619,6 @@ int main() {
                     cout << "Сотрудник успешно назначен на проект.\n";
                 }
                 else if (choice == 6) {
-                    // Вывод котика перед выходом
-                    cout << "     |\\__/,|   (`\\\n";
-                    cout << "  _.|o O  o O|_  ) )\n";
-                    cout << "-(((---((( *-* )))  ~\n";
-                    cout << "    |  ^_^  |  /|\\\n";
-                    cout << "    |  > <  |_/ |_\n";
-                    cout << "    ~ ~ ~ ~ ~ ~ Felix\n\n";
 
                     // Освобождение памяти
                     for (int i = 0; i < projectSize; i++) {
@@ -643,17 +639,86 @@ int main() {
             }
 
         } else if (k == 7) {
-            cout << "В КАЖДОМ ИНДИВИДУАЛЬНОМ ЗАДАНИИ ДОЛЖНЫ БЫТЬ \n"
-                    "ИСПОЛЬЗОВАНЫ ШАБЛОННЫЕ КЛАССЫ И ФУНКЦИИ. " << endl;
-            cout << " Разработать набор классов (минимум 5) по теме «Разработка 3D \n"
-                    "графики». Корректно реализовать связи между классами. В разработанном \n"
-                    "наборе классов должен быть хотя бы один шаблонный класс. Все классы \n"
-                    "должны иметь методы получения и установки значений полей. Программа \n"
-                    "должна обеспечивать вывод детальной информации о созданных 3D \n"
-                    "изображениях в табличном виде на экран и в файл. Использовать конструктор \n"
-                    "с параметрами, конструктор без параметров, конструктор копирования, \n"
-                    "деструктор." << endl;
-            cout << "Ещё не готова." << endl;
+        cout << "В КАЖДОМ ИНДИВИДУАЛЬНОМ ЗАДАНИИ ДОЛЖНЫ БЫТЬ \n"
+         "ИСПОЛЬЗОВАНЫ ШАБЛОННЫЕ КЛАССЫ И ФУНКЦИИ. " << endl;
+    cout << " Разработать набор классов (минимум 5) по теме «Разработка 3D \n"
+            "графики». Корректно реализовать связи между классами. В разработанном \n"
+            "наборе классов должен быть хотя бы один шаблонный класс. Все классы \n"
+            "должны иметь методы получения и установки значений полей. Программа \n"
+            "должна обеспечивать вывод детальной информации о созданных 3D \n"
+            "изображениях в табличном виде на экран и в файл. Использовать конструктор \n"
+            "с параметрами, конструктор без параметров, конструктор копирования, \n"
+            "деструктор." << endl;
+
+    cout << "Выберите действие:" << endl;
+    Figures<Object> fig;
+    while (true) {
+        cout << "1. Добавить фигуру.\n"
+             << "2. Удалить фигуру.\n"
+             << "3. Показать фигуры.\n"
+             << "4. Выйти." << endl;
+        int choice = checkYourSolution(4);
+
+
+        if (choice == 1) {
+            cout << "Введите x:" << endl;
+            double x = checkTryToInputDouble();
+
+            cout << "Введите y:" << endl;
+            double y = checkTryToInputDouble();
+
+            cout << "Введите z:" << endl;
+            double z = checkTryToInputDouble();
+
+            cout << "Введите материал:" << endl;
+            string material = checkTryToInputStringName("");
+
+            cout << "Введите цвет:" << endl;
+            string color = checkTryToInputStringName("");
+
+            cout << "Введите текстуру:" << endl;
+            string texture = checkTryToInputStringName("");
+
+            cout << "Введите температуру:" << endl;
+            double temperature = checkTryToInputDouble();
+
+            cout << "Введите массу:" << endl;
+            double weight = checkTryToInputDouble();
+
+            Object obj(x, y, z, material, color, texture, temperature, weight);
+            fig.addFigure(obj);
+            cout << "Фигура успешно добавлена!" << endl;
+        }
+        else if (choice == 2) {
+            if (fig.getFiguresCount() == 0) {
+                cout << "Список фигур пуст." << endl;
+                continue;
+            }
+            fig.print();
+            cout << "Введите индекс фигуры для удаления:" << endl;
+            int choicePrint = checkTryToInputInt();
+
+            while (choicePrint < 0 || choicePrint > fig.getFiguresCount() - 1) {
+                cout << "Ошибка! Введите число от 0 до " << fig.getFiguresCount() - 1 << ":" << endl;
+                choicePrint = checkTryToInputInt();
+
+            }
+            fig.deleteFigure(choicePrint);
+            cout << "Фигура удалена." << endl;
+        }
+        else if (choice == 3) {
+            if (fig.getFiguresCount() == 0) {
+                cout << "Список фигур пуст." << endl;
+            } else {
+                fig.print();
+            }
+        }
+        else if (choice == 4) {
+            cout << "Произошёл выход." << endl;
+            break;
+        }
+    }
+
         } else if (k == 8) {
             cout << "В КАЖДОМ ИНДИВИДУАЛЬНОМ ЗАДАНИИ ДОЛЖНЫ БЫТЬ \n"
                     "ИСПОЛЬЗОВАНЫ SMART-УКАЗАТЕЛИ И ТРАНЗАКЦИИ. " << endl;
