@@ -15,8 +15,6 @@ Vertex::Vertex(const Vertex& vert) {
     z = vert.z;
 }
 
-Vertex::~Vertex() {}
-
 Vertex& Vertex::operator=(const Vertex& other) {
     if (this != &other) {
         x = other.x;
@@ -25,6 +23,8 @@ Vertex& Vertex::operator=(const Vertex& other) {
     }
     return *this;
 }
+
+Vertex::~Vertex() {}
 
 void Vertex::setX(double x) { this->x = x; }
 void Vertex::setY(double y) { this->y = y; }
@@ -48,8 +48,6 @@ Material::Material(const Material& mat) {
     texture = mat.texture;
 }
 
-Material::~Material() {}
-
 Material& Material::operator=(const Material& other) {
     if (this != &other) {
         material = other.material;
@@ -58,6 +56,8 @@ Material& Material::operator=(const Material& other) {
     }
     return *this;
 }
+
+Material::~Material() {}
 
 void Material::setMaterial(string mat) { material = mat; }
 void Material::setColor(string col) { color = col; }
@@ -81,8 +81,6 @@ PhysicalProperties::PhysicalProperties(double temp, double weight)
 PhysicalProperties::PhysicalProperties(const PhysicalProperties& pp)
     : temperature(pp.temperature), weight(pp.weight) {}
 
-PhysicalProperties::~PhysicalProperties() {}
-
 PhysicalProperties& PhysicalProperties::operator=(const PhysicalProperties& other) {
     if (this != &other) {
         temperature = other.temperature;
@@ -90,6 +88,8 @@ PhysicalProperties& PhysicalProperties::operator=(const PhysicalProperties& othe
     }
     return *this;
 }
+
+PhysicalProperties::~PhysicalProperties() {}
 
 void PhysicalProperties::setTemperature(double temp) { temperature = temp; }
 void PhysicalProperties::setWeight(double weight) { this->weight = weight; }
@@ -104,28 +104,20 @@ void PhysicalProperties::print() const {
 Object::Object()
     : PhysicalProperties(), Material(), vertices(nullptr), vertexCount(0) {}
 
-Object::Object(double x, double y, double z,
-               string mat, string col, string tex,
-               double temp, double weight)
-    : PhysicalProperties(temp, weight),
-      Material(mat, col, tex),
-      vertexCount(1) {
+Object::Object(int vertexCount, double* xCoords, double* yCoords, double* zCoords, string mat, string col, string tex, double temp, double weight)
+    : PhysicalProperties(temp, weight), Material(mat, col, tex), vertexCount(vertexCount) {
     vertices = new Vertex[vertexCount];
-    vertices[0] = Vertex(x, y, z);
+    for (int i = 0; i < vertexCount; i++) {
+        vertices[i] = Vertex(xCoords[i], yCoords[i], zCoords[i]);
+    }
 }
 
 Object::Object(const Object& obj)
-    : PhysicalProperties(obj),
-      Material(obj),
-      vertexCount(obj.vertexCount) {
+    : PhysicalProperties(obj), Material(obj), vertexCount(obj.vertexCount) {
     vertices = new Vertex[vertexCount];
     for (int i = 0; i < vertexCount; i++) {
         vertices[i] = obj.vertices[i];
     }
-}
-
-Object::~Object() {
-    delete[] vertices;
 }
 
 Object& Object::operator=(const Object& other) {
@@ -144,6 +136,10 @@ Object& Object::operator=(const Object& other) {
     return *this;
 }
 
+Object::~Object() {
+    delete[] vertices;
+}
+
 void Object::setVertices(Vertex* vertices, int count) {
     delete[] this->vertices;
     this->vertices = new Vertex[count];
@@ -155,6 +151,17 @@ void Object::setVertices(Vertex* vertices, int count) {
 
 Vertex* Object::getVertices() const { return vertices; }
 int Object::getVertexCount() const { return vertexCount; }
+
+void Object::addVertex(double x, double y, double z) {
+    Vertex* NewVertices = new Vertex[vertexCount + 1];
+    for (int i = 0; i < vertexCount; i++) {
+        NewVertices[i] = vertices[i];
+    }
+    NewVertices[vertexCount] = Vertex(x, y, z); // Исправлен индекс
+    delete[] this->vertices;
+    vertices = NewVertices;
+    vertexCount++;
+}
 
 void Object::print() const {
     cout << "Список вершин:" << endl;

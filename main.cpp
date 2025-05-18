@@ -15,8 +15,10 @@
 #include "Header_5.h"
 #include "Header_6.h"
 #include "Header_7.h"
+#include "Header_8.h"
 #include "inputCheck.h"
 #include "generate.h"
+
 
 
 using namespace std;
@@ -640,101 +642,232 @@ int main() {
 
         } else if (k == 7) {
         cout << "В КАЖДОМ ИНДИВИДУАЛЬНОМ ЗАДАНИИ ДОЛЖНЫ БЫТЬ \n"
-         "ИСПОЛЬЗОВАНЫ ШАБЛОННЫЕ КЛАССЫ И ФУНКЦИИ. " << endl;
-    cout << " Разработать набор классов (минимум 5) по теме «Разработка 3D \n"
-            "графики». Корректно реализовать связи между классами. В разработанном \n"
-            "наборе классов должен быть хотя бы один шаблонный класс. Все классы \n"
-            "должны иметь методы получения и установки значений полей. Программа \n"
-            "должна обеспечивать вывод детальной информации о созданных 3D \n"
-            "изображениях в табличном виде на экран и в файл. Использовать конструктор \n"
-            "с параметрами, конструктор без параметров, конструктор копирования, \n"
-            "деструктор." << endl;
+                "ИСПОЛЬЗОВАНЫ ШАБЛОННЫЕ КЛАССЫ И ФУНКЦИИ. " << endl;
+        cout << " Разработать набор классов (минимум 5) по теме «Разработка 3D \n"
+                "графики». Корректно реализовать связи между классами. В разработанном \n"
+                "наборе классов должен быть хотя бы один шаблонный класс. Все классы \n"
+                "должны иметь методы получения и установки значений полей. Программа \n"
+                "должна обеспечивать вывод детальной информации о созданных 3D \n"
+                "изображениях в табличном виде на экран и в файл. Использовать конструктор \n"
+                "с параметрами, конструктор без параметров, конструктор копирования, \n"
+                "деструктор." << endl;
 
-    cout << "Выберите действие:" << endl;
-    Figures<Object> fig;
-    while (true) {
-        cout << "1. Добавить фигуру.\n"
-             << "2. Удалить фигуру.\n"
-             << "3. Показать фигуры.\n"
-             << "4. Выйти." << endl;
-        int choice = checkYourSolution(4);
+        cout << "Выберите действие:" << endl;
+        Figures<Object> fig;
+        while (true) {
+            cout << "1. Добавить фигуру.\n"
+                 << "2. Удалить фигуру.\n"
+                 << "3. Показать фигуры.\n"
+                 << "4. Выйти." << endl;
+            int choice = checkYourSolution(4);
 
+            if (choice == 1) {
+                cout << "Введите кол-во вершин у фигуры:" << endl;
 
-        if (choice == 1) {
-            cout << "Введите x:" << endl;
-            double x = checkTryToInputDouble();
+                int choiceVertex = checkTryToInputInt();
 
-            cout << "Введите y:" << endl;
-            double y = checkTryToInputDouble();
+                while (choiceVertex<1) {
+                    cout << "Некорректный ввод." << endl;
+                    choiceVertex = checkTryToInputInt();
+                }
+                double* x= new double[choiceVertex];
+                double* y= new double[choiceVertex];
+                double* z= new double[choiceVertex];
 
-            cout << "Введите z:" << endl;
-            double z = checkTryToInputDouble();
+                for (int i = 0; i < choiceVertex; i++) {
+                    cout << "Вершина номер" << i+1 << endl;
 
-            cout << "Введите материал:" << endl;
-            string material = checkTryToInputStringName("");
+                    cout << "Введите x:" << endl;
+                    x[i] = checkTryToInputDouble();
 
-            cout << "Введите цвет:" << endl;
-            string color = checkTryToInputStringName("");
+                    cout << "Введите y:" << endl;
+                    y[i] = checkTryToInputDouble();
 
-            cout << "Введите текстуру:" << endl;
-            string texture = checkTryToInputStringName("");
+                    cout << "Введите z:" << endl;
+                    z[i] = checkTryToInputDouble();
+                }
 
-            cout << "Введите температуру:" << endl;
-            double temperature = checkTryToInputDouble();
+                cout << "Введите материал:" << endl;
+                string material = checkTryToInputStringName("");
 
-            cout << "Введите массу:" << endl;
-            double weight = checkTryToInputDouble();
+                cout << "Введите цвет:" << endl;
+                string color = checkTryToInputStringName("");
 
-            Object obj(x, y, z, material, color, texture, temperature, weight);
-            fig.addFigure(obj);
-            cout << "Фигура успешно добавлена!" << endl;
-        }
-        else if (choice == 2) {
-            if (fig.getFiguresCount() == 0) {
-                cout << "Список фигур пуст." << endl;
-                continue;
+                cout << "Введите текстуру:" << endl;
+                string texture = checkTryToInputStringName("");
+
+                cout << "Введите температуру:" << endl;
+                double temperature = checkTryToInputDouble();
+
+                cout << "Введите массу:" << endl;
+                double weight = checkTryToInputDouble();
+                while (weight <=0) {
+                    cout << "Объект не может быть нулевой массы. Повторите попытку:" << endl;
+                    weight = checkTryToInputDouble();
+                }
+
+                Object obj(choiceVertex,x, y, z, material, color, texture, temperature, weight);
+                fig.addFigure(obj);
+                cout << "Фигура успешно добавлена!" << endl;
             }
-            fig.print();
-            cout << "Введите индекс фигуры для удаления:" << endl;
-            int choicePrint = checkTryToInputInt();
-
-            while (choicePrint < 0 || choicePrint > fig.getFiguresCount() - 1) {
-                cout << "Ошибка! Введите число от 0 до " << fig.getFiguresCount() - 1 << ":" << endl;
-                choicePrint = checkTryToInputInt();
-
-            }
-            fig.deleteFigure(choicePrint);
-            cout << "Фигура удалена." << endl;
-        }
-        else if (choice == 3) {
-            if (fig.getFiguresCount() == 0) {
-                cout << "Список фигур пуст." << endl;
-            } else {
+            else if (choice == 2) {
+                if (fig.getFiguresCount() == 0) {
+                    cout << "Список фигур пуст." << endl;
+                    continue;
+                }
                 fig.print();
+                cout << "Введите индекс фигуры для удаления:" << endl;
+                int choicePrint = checkTryToInputInt();
+
+                while (choicePrint < 0 || choicePrint > fig.getFiguresCount() - 1) {
+                    cout << "Ошибка! Введите число от 0 до " << fig.getFiguresCount() - 1 << ":" << endl;
+                    choicePrint = checkTryToInputInt();
+
+                }
+                fig.deleteFigure(choicePrint);
+                cout << "Фигура удалена." << endl;
+            }
+            else if (choice == 3) {
+                if (fig.getFiguresCount() == 0) {
+                    cout << "Список фигур пуст." << endl;
+                } else {
+                    fig.print();
+                }
+            }
+            else if (choice == 4) {
+                cout << "Произошёл выход." << endl;
+                break;
             }
         }
-        else if (choice == 4) {
-            cout << "Произошёл выход." << endl;
-            break;
-        }
-    }
 
         } else if (k == 8) {
             cout << "В КАЖДОМ ИНДИВИДУАЛЬНОМ ЗАДАНИИ ДОЛЖНЫ БЫТЬ \n"
-                    "ИСПОЛЬЗОВАНЫ SMART-УКАЗАТЕЛИ И ТРАНЗАКЦИИ. " << endl;
+            << "ИСПОЛЬЗОВАНЫ SMART-УКАЗАТЕЛИ И ТРАНЗАКЦИИ. " << endl;
             cout << " Разработать набор классов (минимум 5) по теме «Разработка 3D \n"
-                    "графики». Корректно реализовать связи между классами. Использовать \n"
-                    "smart-указатели для создания программы учета созданных и удаленных \n"
-                    "изображений 3D графики. Реализовать механизм транзакций, который \n"
-                    "позволит откатывать изменения, если данные о графике введены неверно \n"
-                    "(например, материал или источник света имеют некорректное значение). В \n"
-                    "разработанном наборе классов должен быть хотя бы один шаблонный класс. \n"
-                    "Все классы должны иметь методы получения и установки значений полей. \n"
-                    "Программа должна обеспечивать вывод детальной информации о созданных \n"
-                    "3D изображениях в табличном виде на экран и в файл. Использовать \n"
-                    "конструктор с параметрами, конструктор без параметров, конструктор \n"
-                    "копирования, деструктор." << endl;
-            cout << "Ещё не готова." << endl;
+                 << "графики». Корректно реализовать связи между классами. Использовать \n"
+                 << "smart-указатели для создания программы учета созданных и удаленных \n"
+                 << "изображений 3D графики. Реализовать механизм транзакций, который \n"
+                 << "позволит откатывать изменения, если данные о графике введены неверно \n"
+                 << "(например, материал или источник света имеют некорректное значение). В \n"
+                 << "разработанном наборе классов должен быть хотя бы один шаблонный класс. \n"
+                 << "Все классы должны иметь методы получения и установки значений полей. \n"
+                 << "Программа должна обеспечивать вывод детальной информации о созданных \n"
+                 << "3D изображениях в табличном виде на экран и в файл. Использовать \n"
+                 << "конструктор с параметрами, конструктор без параметров, конструктор \n"
+                 << "копирования, деструктор." << endl;
+            cout << "Выберите действие:" << endl;
+            SceneObjects<GraphicObject> fig; // Изменено с Figures<Object>
+            RenderHistory<GraphicObject> figH; // Изменено с FigureHistory<Object>
+            while (true) {
+                cout << "1. Добавить фигуру.\n"
+                     << "2. Удалить фигуру.\n"
+                     << "3. Показать фигуры.\n"
+                     << "4. Показать историю.\n"
+                     << "5. Восстановить фигуру.\n"
+                     << "6. Выйти." << endl;
+                int choice = checkYourSolution(6);
+
+                if (choice == 1) {
+                    cout << "Введите кол-во вершин у фигуры:" << endl;
+
+                    int choiceVertex = checkTryToInputInt();
+
+                    while (choiceVertex < 1) {
+                        cout << "Некорректный ввод." << endl;
+                        choiceVertex = checkTryToInputInt();
+                    }
+                    double* x = new double[choiceVertex];
+                    double* y = new double[choiceVertex];
+                    double* z = new double[choiceVertex];
+
+                    for (int i = 0; i < choiceVertex; i++) {
+                        cout << "Вершина номер" << i + 1 << endl;
+
+                        cout << "Введите x:" << endl;
+                        x[i] = checkTryToInputDouble();
+
+                        cout << "Введите y:" << endl;
+                        y[i] = checkTryToInputDouble();
+
+                        cout << "Введите z:" << endl;
+                        z[i] = checkTryToInputDouble();
+                    }
+
+                    cout << "Введите материал:" << endl;
+                    string material = checkTryToInputStringName("");
+
+                    cout << "Введите цвет:" << endl;
+                    string color = checkTryToInputStringName("");
+
+                    cout << "Введите текстуру:" << endl;
+                    string texture = checkTryToInputStringName("");
+
+                    cout << "Введите температуру:" << endl;
+                    double temperature = checkTryToInputDouble();
+
+                    cout << "Введите массу:" << endl;
+                    double weight = checkTryToInputDouble();
+                    while (weight <= 0) {
+                        cout << "Объект не может быть нулевой массы. Повторите попытку:" << endl;
+                        weight = checkTryToInputDouble();
+                    }
+
+                    GraphicObject obj(choiceVertex, x, y, z, material, color, texture, temperature, weight); // Изменено с Object
+                    fig.addFigure(obj, figH); // Изменено с fig.addFigure
+                    figH.addFigureHistory(obj); // Изменено с figH.addFigure
+                    cout << "Фигура успешно добавлена!" << endl;
+                }
+                else if (choice == 2) {
+                    if (fig.getFiguresCount() == 0) {
+                        cout << "Список фигур пуст." << endl;
+                        continue;
+                    }
+                    fig.print();
+                    cout << "Введите индекс фигуры для удаления:" << endl;
+                    int choicePrint = checkTryToInputInt();
+
+                    while (choicePrint < 0 || choicePrint > fig.getFiguresCount() - 1) {
+                        cout << "Ошибка! Введите число от 0 до " << fig.getFiguresCount() - 1 << ":" << endl;
+                        choicePrint = checkTryToInputInt();
+                    }
+                    fig.deleteFigure(choicePrint, figH); // Изменено с fig.deleteFigure
+                    cout << "Фигура удалена." << endl;
+                }
+                else if (choice == 3) {
+                    if (fig.getFiguresCount() == 0) {
+                        cout << "Список фигур пуст." << endl;
+                    } else {
+                        fig.print();
+                    }
+                }
+                else if (choice == 4) {
+                    cout << "История :" << endl;
+                    figH.print();
+                }
+                else if (choice == 5) {
+                    fig.print();
+                    cout << "Введите индекс фигуры для восстановления:" << endl;
+                    int choicePrint = checkTryToInputInt();
+                    if (fig.getFiguresCount() == 0) {
+                        while (choicePrint !=0) {
+                            cout << "Ошибка! Введите число от 0 до 0:" << endl;
+                            choicePrint = checkTryToInputInt();
+                        }
+                    }
+                    else {
+                        while (choicePrint < 0 || choicePrint > fig.getFiguresCount() - 1) {
+                            cout << "Ошибка! Введите число от 0 до " << fig.getFiguresCount() - 1 << ":" << endl;
+                            choicePrint = checkTryToInputInt();
+                        }
+                    }
+
+                    fig.recoverFigure(choicePrint, figH);
+                }
+                else if (choice == 6) {
+                    cout << "Произошёл выход." << endl;
+                    break;
+                }
+            }
         } else if (k == 9) {
             cout << "В КАЖДОМ ИНДИВИДУАЛЬНОМ ЗАДАНИИ НЕОБХОДИМО: \n"
                     "1. Сгенерировать минимум пять типов исключительных ситуаций \n"

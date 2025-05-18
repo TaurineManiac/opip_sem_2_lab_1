@@ -84,7 +84,7 @@ private:
 
 public:
     Object();
-    Object(double x, double y, double z, string mat, string col, string tex, double temp, double weight);
+    Object(int vertexCount, double* xCoords, double* yCoords, double* zCoords, string mat, string col, string tex, double temp, double weight);
     Object(const Object& obj);
     Object& operator=(const Object& obj);
     virtual ~Object();
@@ -92,6 +92,7 @@ public:
     Vertex* getVertices() const;
     int getVertexCount() const;
     void setVertices(Vertex* vertices, int count);
+    void addVertex(double x, double y, double z);
 
     void print() const;
 };
